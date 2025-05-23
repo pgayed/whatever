@@ -1,41 +1,39 @@
-# Cool Clojure Code Example
+# Clojure Server-Side Counter App
 
-This project demonstrates a simple use of Clojure's `core.async` library for concurrent programming.
+This project is a simple web application built entirely in Clojure. It demonstrates a web page with a counter that is incremented on the server when a button is clicked. No client-side JavaScript is used for the counter logic.
 
-## Functionality
+## Features
 
-The main program (`cool-clojure-code.core/-main`) launches two asynchronous "computations" that simulate long-running tasks. It then waits for both computations to complete and prints their results.
+-   **Server-Side Logic:** All counter operations and HTML rendering are handled by Clojure code on the server.
+-   **Ring/Jetty:** Uses the Ring library for web request handling and Jetty as the underlying HTTP server.
+-   **State Management:** The counter's state is managed on the server using a Clojure `atom`.
+-   **Basic HTML/CSS:** The page includes minimal styling for presentation.
 
-This showcases:
-- Basic Clojure project setup (`project.clj`).
-- Namespace definition and requiring libraries.
-- `go` blocks for asynchronous operations.
-- Channels (`chan`, `<!`, `>!`) for communication (though this example primarily uses `<!` for receiving results from go blocks that act like channels).
-- Simulating delays with `async/timeout`.
+## Project Structure
+
+-   `project.clj`: Defines the project, dependencies (Clojure, Ring, Jetty), and the main class.
+-   `src/clojure_counter_app/core.clj`: Contains all the application logic:
+    -   Namespace definition and required libraries.
+    -   An `atom` to store the counter value.
+    -   A Ring `handler` function that:
+        -   Checks for requests to `/increment` (via POST) to increase the counter.
+        -   Renders an HTML page displaying the current counter and a button to trigger the increment.
+    -   The `app` definition, wrapping the handler with necessary middleware (`wrap-params`).
+    -   A `-main` function to start the Jetty server.
 
 ## Prerequisites
 
-- Java Development Kit (JDK) version 8 or later.
-- Leiningen (Clojure project management tool). You can find installation instructions at [https://leiningen.org/](https://leiningen.org/).
+-   Java Development Kit (JDK) version 8 or later.
+-   Leiningen (Clojure project management tool). You can find installation instructions at [https://leiningen.org/](https://leiningen.org/).
 
 ## How to Run
 
 1.  **Clone the repository (if applicable).**
 2.  **Navigate to the project directory.**
-3.  **Run the code:**
+3.  **Run the application:**
     ```bash
     lein run
     ```
+4.  **Open your web browser** and go to `http://localhost:8080` (or the port specified in the console output if `PORT` environment variable is set).
 
-    You should see output indicating the start and completion of two computations, followed by their results. For example:
-
-    ```
-    Launched computations, waiting for results...
-    Starting computation A...
-    Starting computation B...
-    Computation A done! Result: <some-random-number>
-    Final result from A: Computation A done! Result: <some-random-number>
-    Computation B done! Result: <another-random-number>
-    Final result from B: Computation B done! Result: <another-random-number>
-    All computations finished.
-    ```
+    You should see a page displaying "Clojure Counter App", the current count (initially 0), and a button. Clicking the button will send a request to the server, increment the counter, and reload the page with the updated count.

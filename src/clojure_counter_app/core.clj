@@ -16,8 +16,7 @@
     [:div (str current-count)] ; Removed class attribute
     [:form {:action "/increment" :method "post"}
      [:button {:type "submit"} "Click me to Increment!"]]
-    [:form {:action "/" :method "get"}
-     [:button {:type "submit"} "Show Current Count"]]]]) ; Removed class attribute
+    ]])
 
 (defn handler [request]
   (when (and (= (:uri request) "/increment")

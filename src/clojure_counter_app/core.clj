@@ -1,7 +1,6 @@
 (ns clojure-counter-app.core
   (:require [ring.adapter.jetty :as jetty]
             [ring.util.response :as response] ; Updated
-            [ring.middleware.params :as params] ; Updated
             [rum.core :as rum]) ; Added Rum
   (:gen-class))
 
@@ -29,7 +28,7 @@
      :body (rum/render-html (counter-page current-count))})) ; Use Rum to render HTML
 
 (def app
-  (params/wrap-params handler) ; Updated middleware
+  handler ; Updated middleware
       ;; Note: The original resource/content-type/not-modified middlewares are removed
       ;; as per the example in the prompt implicitly by not being in the new ns :require
       ;; and not being in the new app pipeline. If they were still needed,

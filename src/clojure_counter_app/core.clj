@@ -7,7 +7,7 @@
 
 (defonce counter (atom 0))
 
-(rum/defc counter-page < rum/reactive [current-count]
+(rum/defc counter-page [current-count]
   [:html
    [:head
     [:title "Clojure Rum Counter"]] ; page-styles component removed

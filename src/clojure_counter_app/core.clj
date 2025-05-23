@@ -41,5 +41,4 @@
 
 (defn -main [& args]
   (let [port (Integer/parseInt (or (System/getenv "PORT") "8080"))]
-    (println (str "Starting web server on port " port "."))
     (jetty/run-jetty app {:port port :join? false})))

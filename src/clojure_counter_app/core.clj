@@ -29,8 +29,7 @@
      :body (rum/render-html (counter-page current-count))})) ; Use Rum to render HTML
 
 (def app
-  (-> handler
-      params/wrap-params ; Updated middleware
+  (params/wrap-params handler) ; Updated middleware
       ;; Note: The original resource/content-type/not-modified middlewares are removed
       ;; as per the example in the prompt implicitly by not being in the new ns :require
       ;; and not being in the new app pipeline. If they were still needed,

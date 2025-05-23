@@ -7,30 +7,17 @@
 
 (defonce counter (atom 0))
 
-(rum/defc page-styles []
-  [:style
-   {:type "text/css"}
-   "body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #f0f0f0; text-align: center; }"
-   "h1 { color: #333; }"
-   ".counter-value { font-size: 3em; color: #007bff; margin: 20px 0; }"
-   "form { margin-top: 10px; }"
-   "button { padding: 10px 20px; font-size: 1em; color: white; background-color: #007bff; border: none; border-radius: 5px; cursor: pointer; }"
-   "button:hover { background-color: #0056b3; }"
-   "button.reset { background-color: #6c757d; }"
-   "button.reset:hover { background-color: #545b62; }"])
-
 (rum/defc counter-page < rum/reactive [current-count]
   [:html
    [:head
-    [:title "Clojure Rum Counter"]
-    (page-styles)]
+    [:title "Clojure Rum Counter"]] ; page-styles component removed
    [:body
     [:h1 "Clojure Counter App (Rum)"]
-    [:div.counter-value (str current-count)] ; Rum components expect strings or other components
+    [:div (str current-count)] ; Removed class attribute
     [:form {:action "/increment" :method "post"}
      [:button {:type "submit"} "Click me to Increment!"]]
     [:form {:action "/" :method "get"}
-     [:button.reset {:type "submit"} "Show Current Count"]]]])
+     [:button {:type "submit"} "Show Current Count"]]]]) ; Removed class attribute
 
 (defn handler [request]
   (when (and (= (:uri request) "/increment")

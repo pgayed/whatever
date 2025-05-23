@@ -6,7 +6,7 @@ This project is a simple web application built entirely in Clojure. It demonstra
 
 -   **Server-Side Logic:** All counter operations and HTML rendering are handled by Clojure code on the server.
 -   **Ring/Jetty:** Uses the Ring library for web request handling and Jetty as the underlying HTTP server.
--   **Rum:** Uses the Rum library for generating HTML via UI components.
+-   **Rum:** Uses the Rum library for generating HTML via UI components. Page uses default browser styling.
 -   **State Management:** The counter's state is managed on the server using a Clojure `atom`.
 
 ## Project Structure
@@ -14,7 +14,7 @@ This project is a simple web application built entirely in Clojure. It demonstra
 -   `project.clj`: Defines the project, dependencies (Clojure, Ring, Jetty, Rum), and the main class.
 -   `src/clojure_counter_app/core.clj`: Contains all the application logic:
     -   Namespace definition and required libraries (including Rum).
-    -   Rum components (`page-styles`, `counter-page`) for defining the HTML structure.
+    -   A Rum component (`counter-page`) for defining the HTML structure. (Removed `page-styles`)
     -   An `atom` to store the counter value.
     -   A Ring `handler` function that:
         -   Checks for requests to `/increment` (via POST) to increase the counter.

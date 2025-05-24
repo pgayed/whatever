@@ -13,7 +13,7 @@
 (defn generate-random-string [length]
   (apply str (repeatedly length #(rand-nth "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"))))
 
-(rum/defc counter-page [current-count logged-in? newly-generated-username newly-generated-password]
+(rum/defc counter-page [current-count logged-in? username password] ; Changed argument names
   [:html
    [:head
     [:title "Clojure Rum Counter"]]
@@ -30,10 +30,10 @@
       [:form {:action "/login" :method "post"}
        [:button {:type "submit"} "Login"]])
     
-    (when (and logged-in? newly-generated-username newly-generated-password)
+    (when (and logged-in? username password) ; Changed condition and variables
       [:div
-       [:p (str "Your username: " newly-generated-username)]
-       [:p (str "Your password: " newly-generated-password)]])
+       [:p (str "Your username: " username)] ; Changed variable
+       [:p (str "Your password: " password)]]) ; Changed variable
     ]])
 
 (defn handler [request]
@@ -46,7 +46,7 @@
             new-session-token (generate-random-string 20)]
         (swap! users-credentials assoc new-session-token {:username new-username :password new-password})
         (swap! active-sessions conj new-session-token)
-        (-> (response/redirect "/?new_creds=true") ; Redirect with flag
+        (-> (response/redirect "/") ; Redirect to /
             (assoc-in [:cookies "session-token"] {:value new-session-token :path "/"})))
 
       ;; Logout route
@@ -67,9 +67,7 @@
       (= (:uri request) "/")
       (let [current-count @counter
             logged-in? (and session-token (contains? @active-sessions session-token))
-            new-creds-flag (get-in request [:query-params "new_creds"])
-            show-new-creds? (= new-creds-flag "true")
-            creds (when (and logged-in? show-new-creds?) (get @users-credentials session-token))]
+            creds (when logged-in? (get @users-credentials session-token))] ; Fetch if logged in
         {:status 200
          :headers {"Content-Type" "text/html"}
          :body (rum/render-html (counter-page current-count logged-in? (:username creds) (:password creds)))})

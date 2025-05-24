@@ -19,7 +19,6 @@
     [:title "Clojure Rum Counter"]]
    [:body
     [:h1 "Clojure Counter App (Rum)"]
-    [:p (str "Debug: logged-in? is " logged-in?)] ; <<< DEBUG LINE
     [:div (str current-count)]
     [:form {:action "/increment" :method "post"}
      [:button {:type "submit"} "Click me to Increment!"]]
